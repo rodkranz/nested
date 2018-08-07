@@ -129,8 +129,8 @@ func ExampleInterface() {
 	}
 
 	session, found := Interface("session", data)
-	// output: map[token:62vsy29v8y4v248v5y97v1e21v35ce97] true
 	fmt.Println(session, found)
+	// output: map[token:62vsy29v8y4v248v5y97v1e21v35ce97] true
 }
 func ExampleMap_Interface() {
 	data := map[string]interface{}{
@@ -144,8 +144,8 @@ func ExampleMap_Interface() {
 	}
 
 	session, found := New(data).Interface("session")
-	// output: map[token:62vsy29v8y4v248v5y97v1e21v35ce97] true
 	fmt.Println(session, found)
+	// output: map[token:62vsy29v8y4v248v5y97v1e21v35ce97] true
 }
 func BenchmarkInterface(b *testing.B) {
 	total := 10
@@ -222,8 +222,8 @@ func ExampleInt() {
 	}
 
 	level, found := Int("person.level", data)
-	// output: 3 true
 	fmt.Println(level, found)
+	// output: 3 true
 }
 func ExampleMap_Int() {
 	data := map[string]interface{}{
@@ -234,8 +234,8 @@ func ExampleMap_Int() {
 	}
 
 	level, found := New(data).Int("person.level")
-	// output: 3 true
 	fmt.Println(level, found)
+	// output: 3 true
 }
 func BenchmarkInt(b *testing.B) {
 	total := 10
@@ -305,8 +305,8 @@ func ExampleString() {
 	}
 
 	name, found := String("person.name", data)
-	// output: Rodrigo true
 	fmt.Println(name, found)
+	// output: Rodrigo true
 }
 func ExampleMap_String() {
 	data := map[string]interface{}{
@@ -316,8 +316,8 @@ func ExampleMap_String() {
 	}
 
 	name, found := New(data).String("person.name")
-	// output: Rodrigo true
 	fmt.Println(name, found)
+	// output: Rodrigo true
 }
 func BenchmarkString(b *testing.B) {
 	total := 10
@@ -409,8 +409,8 @@ func ExampleTime() {
 	}
 
 	expire, found := Time("session.expire", data, time.RFC3339)
-	// output: 2018-08-08 18:00:00 +0000 UTC true
 	fmt.Println(expire, found)
+	// output: 2018-08-08 18:00:00 +0000 UTC true
 }
 func ExampleMap_Time() {
 	data := map[string]interface{}{
@@ -420,8 +420,8 @@ func ExampleMap_Time() {
 	}
 
 	expire, found := New(data).Time("session.expire", time.RFC3339)
-	// output: 2018-08-08 18:00:00 +0000 UTC true
 	fmt.Println(expire, found)
+	// output: 2018-08-08 18:00:00 +0000 UTC true
 }
 func BenchmarkTime(b *testing.B) {
 	total := 10
