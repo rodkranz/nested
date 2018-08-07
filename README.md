@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/rodkranz/nested.svg?branch=master)](https://travis-ci.org/rodkranz/nested)
+
 # NESTED 
 ===
 Simple function to get value from `map[string]interface` without cast every nest field.
