@@ -12,7 +12,7 @@ func Interface(position string, mapper map[string]interface{}) (interface{}, boo
 	for key, posKey := range pos {
 		v, ok := t[posKey]
 		if !ok {
-			return nil, false
+			break
 		}
 
 		if newValue, ok := v.(map[string]interface{}); ok {
