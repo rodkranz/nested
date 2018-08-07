@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/rodkranz/nested.svg?branch=master)](https://travis-ci.org/rodkranz/nested)
 [![Godoc](http://img.shields.io/badge/godoc-reference-blue.svg?style=flat)](https://godoc.org/github.com/rodkranz/nested)
 [![license](http://img.shields.io/badge/license-MIT-red.svg?style=flat)](https://raw.githubusercontent.com/rodkranz/nested/master/LICENSE)
+[![Go Report Card](https://goreportcard.com/badge/github.com/rodkranz/nested)](https://goreportcard.com/report/github.com/rodkranz/nested)
  
 # NESTED 
 ===

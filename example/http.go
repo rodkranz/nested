@@ -1,9 +1,9 @@
 package main
 
 import (
-	"net/http"
-	"fmt"
 	"encoding/json"
+	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/rodkranz/nested"
@@ -37,7 +37,7 @@ curl -X POST \
     "title": "MOLLITIA SUSCIPIT"
   }
 }'
- */
+*/
 
 func main() {
 	index := func(w http.ResponseWriter, r *http.Request) {

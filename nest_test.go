@@ -1,12 +1,12 @@
 package nested
 
 import (
-	"testing"
 	"fmt"
 	"reflect"
+	"testing"
+	"time"
 
 	"github.com/icrowley/fake"
-	"time"
 )
 
 var data = map[string]interface{}{
@@ -95,10 +95,10 @@ func TestInterface(t *testing.T) {
 			if !reflect.DeepEqual(test.ExpectedFirst, actual) || result != test.ExpectedSecond {
 				t.Errorf("[%d] expected param1: %T(%v) and param2: %T(%v), but got param1: %T(%v) and param2: %T(%v)",
 					key,
-					test.ExpectedFirst, test.ExpectedFirst,   // param1
+					test.ExpectedFirst, test.ExpectedFirst, // param1
 					test.ExpectedSecond, test.ExpectedSecond, // param2
-					actual, actual,                           // actual
-					result, result,                           // result
+					actual, actual, // actual
+					result, result, // result
 				)
 			}
 		})
@@ -178,10 +178,10 @@ func TestInt(t *testing.T) {
 			if actual != test.ExpectedFirst || result != test.ExpectedSecond {
 				t.Errorf("[%d] expected param1: %T(%v) and param2: %T(%v), but got param1: %T(%v) and param2: %T(%v)",
 					key,
-					test.ExpectedFirst, test.ExpectedFirst,   // param1
+					test.ExpectedFirst, test.ExpectedFirst, // param1
 					test.ExpectedSecond, test.ExpectedSecond, // param2
-					actual, actual,                           // actual
-					result, result,                           // result
+					actual, actual, // actual
+					result, result, // result
 				)
 			}
 		})
@@ -251,10 +251,10 @@ func TestString(t *testing.T) {
 			if actual != test.ExpectedFirst || result != test.ExpectedSecond {
 				t.Errorf("[%s] expected param1: %T(%v) and param2: %T(%v), but got param1: %T(%v) and param2: %T(%v)",
 					test.Parameter,
-					test.ExpectedFirst, test.ExpectedFirst,   // param1
+					test.ExpectedFirst, test.ExpectedFirst, // param1
 					test.ExpectedSecond, test.ExpectedSecond, // param2
-					actual, actual,                           // actual
-					result, result,                           // result
+					actual, actual, // actual
+					result, result, // result
 				)
 			}
 		})
@@ -345,10 +345,10 @@ func TestTime(t *testing.T) {
 			if actual.UnixNano() != test.ExpectedFirst || result != test.ExpectedSecond {
 				t.Errorf("[%s] expected param1: %T(%v) and param2: %T(%v), but got param1: %T(%v) and param2: %T(%v)",
 					test.Parameter,
-					test.ExpectedFirst, test.ExpectedFirst,   // param1
+					test.ExpectedFirst, test.ExpectedFirst, // param1
 					test.ExpectedSecond, test.ExpectedSecond, // param2
-					actual, actual.UnixNano(),                // actual
-					result, result,                           // result
+					actual, actual.UnixNano(), // actual
+					result, result, // result
 				)
 			}
 		})
