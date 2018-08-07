@@ -2,5 +2,6 @@
 *.out
 *.prof
 *.test
+*.html
 test.sh
 vendor/

@@ -32,6 +32,19 @@ var data = map[string]interface{}{
 	},
 }
 
+func TestNew(t *testing.T) {
+	out := New(nil)
+	if reflect.ValueOf(out).Type() != reflect.ValueOf(Map{}).Type() {
+		t.Errorf("Expected an %T, but got %v", Map{}, out)
+	}
+
+	out = New(map[string]interface{}{"name": "Rodrigo Lopes"})
+	if reflect.ValueOf(out).Type() != reflect.ValueOf(Map{}).Type() {
+		t.Errorf("Expected an %T, but got %v", Map{}, out)
+	}
+
+}
+
 func TestInterface(t *testing.T) {
 	tests := []struct {
 		Parameter      string
@@ -95,10 +108,10 @@ func TestInterface(t *testing.T) {
 			if !reflect.DeepEqual(test.ExpectedFirst, actual) || result != test.ExpectedSecond {
 				t.Errorf("[%d] expected param1: %T(%v) and param2: %T(%v), but got param1: %T(%v) and param2: %T(%v)",
 					key,
-					test.ExpectedFirst, test.ExpectedFirst, // param1
+					test.ExpectedFirst, test.ExpectedFirst,   // param1
 					test.ExpectedSecond, test.ExpectedSecond, // param2
-					actual, actual, // actual
-					result, result, // result
+					actual, actual,                           // actual
+					result, result,                           // result
 				)
 			}
 		})
@@ -112,12 +125,26 @@ func ExampleInterface() {
 		},
 		"session": map[string]interface{}{
 			"token":  "62vsy29v8y4v248v5y97v1e21v35ce97",
-			"expire": "2018-08-08T18:00:00Z",
 		},
 	}
 
 	session, found := Interface("session", data)
-	// output: map[token:62vsy29v8y4v248v5y97v1e21v35ce97 expire:2018-08-08T18:00:00Z] true
+	// output: map[token:62vsy29v8y4v248v5y97v1e21v35ce97] true
+	fmt.Println(session, found)
+}
+func ExampleMap_Interface() {
+	data := map[string]interface{}{
+		"person": map[string]interface{}{
+			"name":  "Rodrigo",
+			"level": 3,
+		},
+		"session": map[string]interface{}{
+			"token":  "62vsy29v8y4v248v5y97v1e21v35ce97",
+		},
+	}
+
+	session, found := New(data).Interface("session")
+	// output: map[token:62vsy29v8y4v248v5y97v1e21v35ce97] true
 	fmt.Println(session, found)
 }
 func BenchmarkInterface(b *testing.B) {
@@ -177,10 +204,10 @@ func TestInt(t *testing.T) {
 			if actual != test.ExpectedFirst || result != test.ExpectedSecond {
 				t.Errorf("[%d] expected param1: %T(%v) and param2: %T(%v), but got param1: %T(%v) and param2: %T(%v)",
 					key,
-					test.ExpectedFirst, test.ExpectedFirst, // param1
+					test.ExpectedFirst, test.ExpectedFirst,   // param1
 					test.ExpectedSecond, test.ExpectedSecond, // param2
-					actual, actual, // actual
-					result, result, // result
+					actual, actual,                           // actual
+					result, result,                           // result
 				)
 			}
 		})
@@ -194,7 +221,19 @@ func ExampleInt() {
 		},
 	}
 
-	level, found := Interface("person.level", data)
+	level, found := Int("person.level", data)
+	// output: 3 true
+	fmt.Println(level, found)
+}
+func ExampleMap_Int() {
+	data := map[string]interface{}{
+		"person": map[string]interface{}{
+			"name":  "Rodrigo",
+			"level": 3,
+		},
+	}
+
+	level, found := New(data).Int("person.level")
 	// output: 3 true
 	fmt.Println(level, found)
 }
@@ -249,10 +288,10 @@ func TestString(t *testing.T) {
 			if actual != test.ExpectedFirst || result != test.ExpectedSecond {
 				t.Errorf("[%s] expected param1: %T(%v) and param2: %T(%v), but got param1: %T(%v) and param2: %T(%v)",
 					test.Parameter,
-					test.ExpectedFirst, test.ExpectedFirst, // param1
+					test.ExpectedFirst, test.ExpectedFirst,   // param1
 					test.ExpectedSecond, test.ExpectedSecond, // param2
-					actual, actual, // actual
-					result, result, // result
+					actual, actual,                           // actual
+					result, result,                           // result
 				)
 			}
 		})
@@ -265,7 +304,18 @@ func ExampleString() {
 		},
 	}
 
-	name, found := Interface("person.name", data)
+	name, found := String("person.name", data)
+	// output: Rodrigo true
+	fmt.Println(name, found)
+}
+func ExampleMap_String() {
+	data := map[string]interface{}{
+		"person": map[string]interface{}{
+			"name": "Rodrigo",
+		},
+	}
+
+	name, found := New(data).String("person.name")
 	// output: Rodrigo true
 	fmt.Println(name, found)
 }
@@ -342,10 +392,10 @@ func TestTime(t *testing.T) {
 			if actual.UnixNano() != test.ExpectedFirst || result != test.ExpectedSecond {
 				t.Errorf("[%s] expected param1: %T(%v) and param2: %T(%v), but got param1: %T(%v) and param2: %T(%v)",
 					test.Parameter,
-					test.ExpectedFirst, test.ExpectedFirst, // param1
+					test.ExpectedFirst, test.ExpectedFirst,   // param1
 					test.ExpectedSecond, test.ExpectedSecond, // param2
-					actual, actual.UnixNano(), // actual
-					result, result, // result
+					actual, actual.UnixNano(),                // actual
+					result, result,                           // result
 				)
 			}
 		})
@@ -358,8 +408,19 @@ func ExampleTime() {
 		},
 	}
 
-	expire, found := Interface("session.expire", data)
-	// output: 2018-08-08T18:00:00Z true
+	expire, found := Time("session.expire", data, time.RFC3339)
+	// output: 2018-08-08 18:00:00 +0000 UTC true
+	fmt.Println(expire, found)
+}
+func ExampleMap_Time() {
+	data := map[string]interface{}{
+		"session": map[string]interface{}{
+			"expire": "2018-08-08T18:00:00Z",
+		},
+	}
+
+	expire, found := New(data).Time("session.expire", time.RFC3339)
+	// output: 2018-08-08 18:00:00 +0000 UTC true
 	fmt.Println(expire, found)
 }
 func BenchmarkTime(b *testing.B) {
