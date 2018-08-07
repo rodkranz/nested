@@ -7,7 +7,7 @@ import (
 
 	"github.com/icrowley/fake"
 	"time"
-)
+		)
 
 var data = map[string]interface{}{
 	"advert": map[string]interface{}{
@@ -176,12 +176,6 @@ func TestString(t *testing.T) {
 			Data:           data,
 		},
 		{
-			Parameter:      "advert.title.id",
-			ExpectedFirst:  "",
-			ExpectedSecond: false,
-			Data:           data,
-		},
-		{
 			Parameter:      "advert.bananas",
 			ExpectedFirst:  "",
 			ExpectedSecond: false,
@@ -228,14 +222,14 @@ func TestTime(t *testing.T) {
 			Data:           data,
 		},
 		{
-			Layout:         time.ANSIC,
+			Layout:         "",
 			Parameter:      "advert.timer.date_time",
-			ExpectedFirst:  -6795364578871345152, // "1987-01-29T19:00:00Z00:00",
-			ExpectedSecond: false,
+			ExpectedFirst:  538945200000000000, // "1987-01-29T19:00:00Z00:00",
+			ExpectedSecond: true,
 			Data:           data,
 		},
 		{
-			Layout:         "",
+			Layout:         time.ANSIC,
 			Parameter:      "advert.timer.date_time",
 			ExpectedFirst:  -6795364578871345152, // "1987-01-29T19:00:00Z00:00",
 			ExpectedSecond: false,
@@ -249,7 +243,7 @@ func TestTime(t *testing.T) {
 		},
 		{
 			Parameter:      "advert.bananas",
-			ExpectedFirst:  0,
+			ExpectedFirst:  -6795364578871345152,
 			ExpectedSecond: false,
 			Data:           data,
 		},
@@ -271,7 +265,7 @@ func TestTime(t *testing.T) {
 	}
 }
 
-func randonData() map[string]interface{} {
+func randomData() map[string]interface{} {
 	return map[string]interface{}{
 		"advert": map[string]interface{}{
 			"id":    fake.Digits(),
@@ -297,23 +291,18 @@ func randonData() map[string]interface{} {
 }
 
 func BenchmarkInterface(b *testing.B) {
-	total := 1024
+	total := 10
 
 	bench := make([]map[string]interface{}, total)
-	for n := 1; n <= total; n *= 2 {
-		bench[n] = randonData()
-
-		fmt.Println(bench[n]["advert"])
+	for i := 0; i < total; i++ {
+		bench[i] = randomData()
 	}
 
-	//for i := 0; i < test.Funcs.Total(); i++ {
-	//	for n := 1; n <= total; n *= 2 {
-	//		name, fn := test.Funcs.Get(i)
-	//		b.Run(fmt.Sprintf("%s/%d", name, n), func(b *testing.B) {
-	//			for i := 0; i < b.N; i++ {
-	//				fn(bench[n])
-	//			}
-	//		})
-	//	}
-	//}
+	for n := 0; n < total; n++ {
+		b.Run(fmt.Sprintf("%d", n), func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				Interface("advert.status.ttl", bench[n])
+			}
+		})
+	}
 }
