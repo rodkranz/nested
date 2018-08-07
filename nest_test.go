@@ -117,8 +117,7 @@ func ExampleInterface() {
 	}
 
 	session, found := Interface("session", data)
-	// output:
-	// map[token:62vsy29v8y4v248v5y97v1e21v35ce97 expire:2018-08-08T18:00:00Z] true
+	// output: map[token:62vsy29v8y4v248v5y97v1e21v35ce97 expire:2018-08-08T18:00:00Z] true
 	fmt.Println(session, found)
 }
 func BenchmarkInterface(b *testing.B) {
@@ -196,8 +195,7 @@ func ExampleInt() {
 	}
 
 	level, found := Interface("person.level", data)
-	// output:
-	// 	3 true
+	// output: 3 true
 	fmt.Println(level, found)
 }
 func BenchmarkInt(b *testing.B) {
@@ -268,8 +266,7 @@ func ExampleString() {
 	}
 
 	name, found := Interface("person.name", data)
-	// output:
-	// 	Rodrigo true
+	// output: Rodrigo true
 	fmt.Println(name, found)
 }
 func BenchmarkString(b *testing.B) {
@@ -362,8 +359,7 @@ func ExampleTime() {
 	}
 
 	expire, found := Interface("session.expire", data)
-	// output:
-	// 	2018-08-08T18:00:00Z true
+	// output: 2018-08-08T18:00:00Z true
 	fmt.Println(expire, found)
 }
 func BenchmarkTime(b *testing.B) {
