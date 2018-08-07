@@ -7,7 +7,7 @@ import (
 
 	"github.com/icrowley/fake"
 	"time"
-		)
+)
 
 var data = map[string]interface{}{
 	"advert": map[string]interface{}{
@@ -32,7 +32,6 @@ var data = map[string]interface{}{
 	},
 }
 
-// Test for Nested function
 func TestInterface(t *testing.T) {
 	tests := []struct {
 		Parameter      string
@@ -105,6 +104,39 @@ func TestInterface(t *testing.T) {
 		})
 	}
 }
+func ExampleInterface() {
+	data := map[string]interface{}{
+		"person": map[string]interface{}{
+			"name":  "Rodrigo",
+			"level": 3,
+		},
+		"session": map[string]interface{}{
+			"token":  "62vsy29v8y4v248v5y97v1e21v35ce97",
+			"expire": "2018-08-08T18:00:00Z",
+		},
+	}
+
+	session, found := Interface("session", data)
+	// output:
+	// map[token:62vsy29v8y4v248v5y97v1e21v35ce97 expire:2018-08-08T18:00:00Z] true
+	fmt.Println(session, found)
+}
+func BenchmarkInterface(b *testing.B) {
+	total := 10
+
+	bench := make([]map[string]interface{}, total)
+	for i := 0; i < total; i++ {
+		bench[i] = randomData()
+	}
+
+	for n := 0; n < total; n++ {
+		b.Run(fmt.Sprintf("%d", n), func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				Interface("advert.status.ttl", bench[n])
+			}
+		})
+	}
+}
 
 func TestInt(t *testing.T) {
 	tests := []struct {
@@ -155,8 +187,38 @@ func TestInt(t *testing.T) {
 		})
 	}
 }
+func ExampleInt() {
+	data := map[string]interface{}{
+		"person": map[string]interface{}{
+			"name":  "Rodrigo",
+			"level": 3,
+		},
+	}
+
+	level, found := Interface("person.level", data)
+	// output:
+	// 	3 true
+	fmt.Println(level, found)
+}
+func BenchmarkInt(b *testing.B) {
+	total := 10
+
+	bench := make([]map[string]interface{}, total)
+	for i := 0; i < total; i++ {
+		bench[i] = randomData()
+	}
+
+	for n := 0; n < total; n++ {
+		b.Run(fmt.Sprintf("%d", n), func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				Int("advert.status.ttl", bench[n])
+			}
+		})
+	}
+}
 
 func TestString(t *testing.T) {
+
 	tests := []struct {
 		Parameter      string
 		ExpectedFirst  string
@@ -194,6 +256,34 @@ func TestString(t *testing.T) {
 					actual, actual,                           // actual
 					result, result,                           // result
 				)
+			}
+		})
+	}
+}
+func ExampleString() {
+	data := map[string]interface{}{
+		"person": map[string]interface{}{
+			"name": "Rodrigo",
+		},
+	}
+
+	name, found := Interface("person.name", data)
+	// output:
+	// 	Rodrigo true
+	fmt.Println(name, found)
+}
+func BenchmarkString(b *testing.B) {
+	total := 10
+
+	bench := make([]map[string]interface{}, total)
+	for i := 0; i < total; i++ {
+		bench[i] = randomData()
+	}
+
+	for n := 0; n < total; n++ {
+		b.Run(fmt.Sprintf("%d", n), func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				String("advert.title", bench[n])
 			}
 		})
 	}
@@ -264,6 +354,34 @@ func TestTime(t *testing.T) {
 		})
 	}
 }
+func ExampleTime() {
+	data := map[string]interface{}{
+		"session": map[string]interface{}{
+			"expire": "2018-08-08T18:00:00Z",
+		},
+	}
+
+	expire, found := Interface("session.expire", data)
+	// output:
+	// 	2018-08-08T18:00:00Z true
+	fmt.Println(expire, found)
+}
+func BenchmarkTime(b *testing.B) {
+	total := 10
+
+	bench := make([]map[string]interface{}, total)
+	for i := 0; i < total; i++ {
+		bench[i] = randomData()
+	}
+
+	for n := 0; n < total; n++ {
+		b.Run(fmt.Sprintf("%d", n), func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				Time("advert.timer.date_time", bench[n], time.RFC3339)
+			}
+		})
+	}
+}
 
 func randomData() map[string]interface{} {
 	return map[string]interface{}{
@@ -287,22 +405,5 @@ func randomData() map[string]interface{} {
 				"birth":     "29/01/1987",
 			},
 		},
-	}
-}
-
-func BenchmarkInterface(b *testing.B) {
-	total := 10
-
-	bench := make([]map[string]interface{}, total)
-	for i := 0; i < total; i++ {
-		bench[i] = randomData()
-	}
-
-	for n := 0; n < total; n++ {
-		b.Run(fmt.Sprintf("%d", n), func(b *testing.B) {
-			for i := 0; i < b.N; i++ {
-				Interface("advert.status.ttl", bench[n])
-			}
-		})
 	}
 }
