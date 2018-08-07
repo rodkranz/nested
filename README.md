@@ -5,6 +5,7 @@
  
 # NESTED 
 ===
+
 Simple function to get value from `map[string]interface` without cast every nest field.
 
 ## About
