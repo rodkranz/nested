@@ -4,7 +4,6 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/rodkranz/nested)](https://goreportcard.com/report/github.com/rodkranz/nested)
  
 # NESTED 
-===
 
 Simple function to get value from `map[string]interface` without cast every nest field.
 
