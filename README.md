@@ -110,18 +110,21 @@ fmt.Println("User is level", level)
 
 If you want to get `time.Time` expire of person you can use:
 ```go
-expire, found := nested.Time("session.expire", data, time2.RFC3339); 
-if !found {
-	log.Fatal("cannot find expire value as time.Time")
+{
+	expire, found := nested.Time("session.expire", data, time2.RFC3339); 
+	if !found {
+		log.Fatal("cannot find expire value as time.Time")
+	}
+	fmt.Println("The token will expire at ", expire)
 }
-fmt.Println("The token will expire at ", expire)
-
-// You can use as 3 parameter a layout of time
-expire, found := nested.Time("session.expire", data, "2006-01-02"); 
-if !found {
-    log.Fatal("cannot find expire value as time.Time with custom layout")
+{
+	// You can use as 3 parameter a layout of time
+	expire, found := nested.Time("session.expire", data, "2006-01-02"); 
+	if !found {
+	    log.Fatal("cannot find expire value as time.Time with custom layout")
+	}
+	fmt.Println("The token will expire at ", expire)
 }
-fmt.Println("The token will expire at ", expire)
 ```
 
 If you want to get `interface` images of person you can use:
