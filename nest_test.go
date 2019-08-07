@@ -29,6 +29,8 @@ var data = map[string]interface{}{
 			"date_time": "1987-01-29T19:00:00Z",
 			"birth":     "29/01/1987",
 		},
+		"extras": "{\"lorem_ipsum\":{\"url\":\"www.lorem-ipsum.com\",\"id\":12},\"lorem_bacon\":{\"url\":\"www.lorem_bacon.com\",\"id\":\"da9883jw32dl12j120un9sa87ds5asn\"}}",
+		"extras_error": "{\"lorem_ipsu:\"www.lorem_bacon.com\",\"id\":\"da9883jw32dl12j120un9sa87ds5asn\"}}",
 	},
 }
 
@@ -166,9 +168,9 @@ func BenchmarkInterface(b *testing.B) {
 
 func TestGetInterface(t *testing.T) {
 	tests := []struct {
-		Parameter      string
-		ExpectedFirst  interface{}
-		Data           map[string]interface{}
+		Parameter     string
+		ExpectedFirst interface{}
+		Data          map[string]interface{}
 	}{
 		{
 			Parameter:     "",
@@ -365,29 +367,29 @@ func BenchmarkInt(b *testing.B) {
 
 func TestGetInt(t *testing.T) {
 	tests := []struct {
-		Parameter      string
-		ExpectedFirst  int
-		Data           map[string]interface{}
+		Parameter     string
+		ExpectedFirst int
+		Data          map[string]interface{}
 	}{
 		{
-			Parameter:      "advert.status.ttl",
-			ExpectedFirst:  123123,
-			Data:           data,
+			Parameter:     "advert.status.ttl",
+			ExpectedFirst: 123123,
+			Data:          data,
 		},
 		{
-			Parameter:      "advert.id",
-			ExpectedFirst:  0,
-			Data:           data,
+			Parameter:     "advert.id",
+			ExpectedFirst: 0,
+			Data:          data,
 		},
 		{
-			Parameter:      "advert.title.id",
-			ExpectedFirst:  0,
-			Data:           data,
+			Parameter:     "advert.title.id",
+			ExpectedFirst: 0,
+			Data:          data,
 		},
 		{
-			Parameter:      "advert.bananas",
-			ExpectedFirst:  0,
-			Data:           data,
+			Parameter:     "advert.bananas",
+			ExpectedFirst: 0,
+			Data:          data,
 		},
 	}
 
@@ -397,8 +399,8 @@ func TestGetInt(t *testing.T) {
 			if actual != test.ExpectedFirst {
 				t.Errorf("[%d] expected param1: %T(%v), but got param1: %T(%v)",
 					key,
-					test.ExpectedFirst, test.ExpectedFirst,   // param1
-					actual, actual,                           // actual
+					test.ExpectedFirst, test.ExpectedFirst, // param1
+					actual, actual,                         // actual
 				)
 			}
 		})
@@ -530,24 +532,24 @@ func BenchmarkString(b *testing.B) {
 func TestGetString(t *testing.T) {
 
 	tests := []struct {
-		Parameter      string
-		ExpectedFirst  string
-		Data           map[string]interface{}
+		Parameter     string
+		ExpectedFirst string
+		Data          map[string]interface{}
 	}{
 		{
-			Parameter:      "advert.title",
-			ExpectedFirst:  "Lorem Ipsum",
-			Data:           data,
+			Parameter:     "advert.title",
+			ExpectedFirst: "Lorem Ipsum",
+			Data:          data,
 		},
 		{
-			Parameter:      "advert.status.ttl",
-			ExpectedFirst:  "",
-			Data:           data,
+			Parameter:     "advert.status.ttl",
+			ExpectedFirst: "",
+			Data:          data,
 		},
 		{
-			Parameter:      "advert.bananas",
-			ExpectedFirst:  "",
-			Data:           data,
+			Parameter:     "advert.bananas",
+			ExpectedFirst: "",
+			Data:          data,
 		},
 	}
 
@@ -557,8 +559,8 @@ func TestGetString(t *testing.T) {
 			if actual != test.ExpectedFirst {
 				t.Errorf("[%s] expected param1: %T(%v), but got param1: %T(%v)",
 					test.Parameter,
-					test.ExpectedFirst, test.ExpectedFirst,   // param1
-					actual, actual,                           // actual
+					test.ExpectedFirst, test.ExpectedFirst, // param1
+					actual, actual,                         // actual
 				)
 			}
 		})
@@ -571,7 +573,7 @@ func ExampleGetString() {
 		},
 	}
 
-	name  := GetString("person.name", data)
+	name := GetString("person.name", data)
 	fmt.Println(name)
 	// output: Rodrigo
 }
@@ -709,44 +711,44 @@ func BenchmarkTime(b *testing.B) {
 
 func TestGetTime(t *testing.T) {
 	tests := []struct {
-		Layout         string
-		Parameter      string
-		ExpectedFirst  int64
-		Data           map[string]interface{}
+		Layout        string
+		Parameter     string
+		ExpectedFirst int64
+		Data          map[string]interface{}
 	}{
 		{
-			Layout:         "02/01/2006",
-			Parameter:      "advert.timer.birth",
-			ExpectedFirst:  538876800000000000,
-			Data:           data,
+			Layout:        "02/01/2006",
+			Parameter:     "advert.timer.birth",
+			ExpectedFirst: 538876800000000000,
+			Data:          data,
 		},
 		{
-			Layout:         time.RFC3339,
-			Parameter:      "advert.timer.date_time",
-			ExpectedFirst:  538945200000000000, // "1987-01-29T19:00:00Z00:00",
-			Data:           data,
+			Layout:        time.RFC3339,
+			Parameter:     "advert.timer.date_time",
+			ExpectedFirst: 538945200000000000, // "1987-01-29T19:00:00Z00:00",
+			Data:          data,
 		},
 		{
-			Layout:         "",
-			Parameter:      "advert.timer.date_time",
-			ExpectedFirst:  538945200000000000, // "1987-01-29T19:00:00Z00:00",
-			Data:           data,
+			Layout:        "",
+			Parameter:     "advert.timer.date_time",
+			ExpectedFirst: 538945200000000000, // "1987-01-29T19:00:00Z00:00",
+			Data:          data,
 		},
 		{
-			Layout:         time.ANSIC,
-			Parameter:      "advert.timer.date_time",
-			ExpectedFirst:  -6795364578871345152, // "1987-01-29T19:00:00Z00:00",
-			Data:           data,
+			Layout:        time.ANSIC,
+			Parameter:     "advert.timer.date_time",
+			ExpectedFirst: -6795364578871345152, // "1987-01-29T19:00:00Z00:00",
+			Data:          data,
 		},
 		{
-			Parameter:      "advert.owner.id",
-			ExpectedFirst:  -6795364578871345152,
-			Data:           data,
+			Parameter:     "advert.owner.id",
+			ExpectedFirst: -6795364578871345152,
+			Data:          data,
 		},
 		{
-			Parameter:      "advert.bananas",
-			ExpectedFirst:  -6795364578871345152,
-			Data:           data,
+			Parameter:     "advert.bananas",
+			ExpectedFirst: -6795364578871345152,
+			Data:          data,
 		},
 	}
 
@@ -756,8 +758,8 @@ func TestGetTime(t *testing.T) {
 			if actual.UnixNano() != test.ExpectedFirst {
 				t.Errorf("[%s] expected param1: %T(%v), but got param1: %T(%v)",
 					test.Parameter,
-					test.ExpectedFirst, test.ExpectedFirst,   // param1
-					actual, actual.UnixNano(),                // actual
+					test.ExpectedFirst, test.ExpectedFirst, // param1
+					actual, actual.UnixNano(),              // actual
 				)
 			}
 		})
@@ -802,6 +804,167 @@ func BenchmarkGetTime(b *testing.B) {
 	}
 }
 
+func TestSubFromString(t *testing.T) {
+	getType := func(t interface{}) string {
+		if t == nil {
+			return "nil"
+		}
+		return reflect.TypeOf(t).Name()
+	}
+
+	tests := []struct {
+		ParameterFirst string
+		ExpectedFirst  interface{}
+		ExpectedSecond bool
+		Data           map[string]interface{}
+	}{
+		{
+			ParameterFirst: "advert.extras",
+			ExpectedFirst:  New(Map{}),
+			ExpectedSecond: true,
+			Data:           data,
+		},
+		{
+			ParameterFirst: "extras.ttl",
+			ExpectedFirst:  Map{},
+			ExpectedSecond: false,
+			Data:           data,
+		},
+		{
+			ParameterFirst: "advert.extras_error",
+			ExpectedFirst:  New(Map{}),
+			ExpectedSecond: false,
+			Data:           data,
+		},
+	}
+
+	for key, test := range tests {
+		t.Run(fmt.Sprintf("Test #%d", key), func(t *testing.T) {
+			actual, result := SubFromString(test.ParameterFirst, test.Data)
+			if getType(actual) != getType(test.ExpectedFirst) || result != test.ExpectedSecond {
+				t.Errorf("[%s] expected param1: %T(%v) and param2: %T(%v), but got param1: %T(%v) and param2: %T(%v)",
+					test.ParameterFirst,
+					test.ExpectedFirst, test.ExpectedFirst,   // param1
+					test.ExpectedSecond, test.ExpectedSecond, // param2
+					actual, getType(actual),                  // actual
+					result, result,                           // result
+				)
+			}
+		})
+	}
+}
+func ExampleSubFromString() {
+	data := map[string]interface{}{
+		"extras": "{\"lorem_ipsum\":{\"url\":\"www.lorem-ipsum.com\",\"id\":12},\"lorem_bacon\":{\"url\":\"www.lorem_bacon.com\",\"id\":\"da9883jw32dl12j120un9sa87ds5asn\"}}",
+	}
+
+	name, found := SubFromString("extras", data)
+	fmt.Println(name, found)
+	// output: map[lorem_bacon:map[id:da9883jw32dl12j120un9sa87ds5asn url:www.lorem_bacon.com] lorem_ipsum:map[id:12 url:www.lorem-ipsum.com]] true
+}
+func ExampleMap_SubFromString() {
+	data := map[string]interface{}{
+		"extras": "{\"lorem_ipsum\":{\"url\":\"www.lorem-ipsum.com\",\"id\":12},\"lorem_bacon\":{\"url\":\"www.lorem_bacon.com\",\"id\":\"da9883jw32dl12j120un9sa87ds5asn\"}}",
+	}
+
+	name, found := New(data).SubFromString("extras")
+	fmt.Println(name, found)
+	// output: map[lorem_bacon:map[id:da9883jw32dl12j120un9sa87ds5asn url:www.lorem_bacon.com] lorem_ipsum:map[id:12 url:www.lorem-ipsum.com]] true
+}
+func BenchmarkSubFromString(b *testing.B) {
+	total := 10
+
+	bench := make([]map[string]interface{}, total)
+	for i := 0; i < total; i++ {
+		bench[i] = randomData()
+	}
+
+	for n := 0; n < total; n++ {
+		b.Run(fmt.Sprintf("%d", n), func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				SubFromString("advert.title", bench[n])
+			}
+		})
+	}
+}
+
+func TestGetSubFromString(t *testing.T) {
+	getType := func(t interface{}) string {
+		if t == nil {
+			return "nil"
+		}
+		return reflect.TypeOf(t).Name()
+	}
+
+	tests := []struct {
+		ParameterFirst string
+		ExpectedFirst  interface{}
+		Data           map[string]interface{}
+	}{
+		{
+			ParameterFirst: "advert.extras",
+			ExpectedFirst:  New(Map{}),
+			Data:           data,
+		},
+		{
+			ParameterFirst: "extras.ttl",
+			ExpectedFirst:  Map{},
+			Data:           data,
+		},
+		{
+			ParameterFirst: "advert.extras_error",
+			ExpectedFirst:  New(Map{}),
+			Data:           data,
+		},
+	}
+
+	for key, test := range tests {
+		t.Run(fmt.Sprintf("Test #%d", key), func(t *testing.T) {
+			actual := GetSubFromString(test.ParameterFirst, test.Data)
+			if getType(actual) != getType(test.ExpectedFirst){
+				t.Errorf("[%s] expected param1: %T(%v), but got param1: %T(%v)",
+					test.ParameterFirst,
+					test.ExpectedFirst, test.ExpectedFirst,   // param1
+					actual, actual,                           // result
+				)
+			}
+		})
+	}
+}
+func ExampleGetSubFromString() {
+	data := map[string]interface{}{
+		"extras": "{\"lorem_ipsum\":{\"url\":\"www.lorem-ipsum.com\",\"id\":12},\"lorem_bacon\":{\"url\":\"www.lorem_bacon.com\",\"id\":\"da9883jw32dl12j120un9sa87ds5asn\"}}",
+	}
+
+	name := GetSubFromString("extras", data)
+	fmt.Println(name)
+	// output: map[lorem_bacon:map[id:da9883jw32dl12j120un9sa87ds5asn url:www.lorem_bacon.com] lorem_ipsum:map[id:12 url:www.lorem-ipsum.com]]
+}
+func ExampleMap_GetSubFromString() {
+	data := map[string]interface{}{
+		"extras": "{\"lorem_ipsum\":{\"url\":\"www.lorem-ipsum.com\",\"id\":12},\"lorem_bacon\":{\"url\":\"www.lorem_bacon.com\",\"id\":\"da9883jw32dl12j120un9sa87ds5asn\"}}",
+	}
+
+	name := New(data).GetSubFromString("extras")
+	fmt.Println(name)
+	// output: map[lorem_bacon:map[id:da9883jw32dl12j120un9sa87ds5asn url:www.lorem_bacon.com] lorem_ipsum:map[id:12 url:www.lorem-ipsum.com]]
+}
+func BenchmarkGetSubFromString(b *testing.B) {
+	total := 10
+
+	bench := make([]map[string]interface{}, total)
+	for i := 0; i < total; i++ {
+		bench[i] = randomData()
+	}
+
+	for n := 0; n < total; n++ {
+		b.Run(fmt.Sprintf("%d", n), func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				GetSubFromString("advert.title", bench[n])
+			}
+		})
+	}
+}
 
 func randomData() map[string]interface{} {
 	return map[string]interface{}{
