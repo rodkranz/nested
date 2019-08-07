@@ -17,6 +17,12 @@ func New(in map[string]interface{}) Map {
 	return Map(in)
 }
 
+// GetInterface returns the interface value from position that you passed by argument
+func (m Map) GetInterface(position string) interface{} {
+	value, _ := m.Interface(position)
+	return value
+}
+
 // Interface returns the value from position that you pass separately by . (dot)
 // the first value is a value that you are looking for and second is bool if found the field or not
 // if the field is not found it returns nil and false.
@@ -46,7 +52,13 @@ func (m Map) Interface(position string) (interface{}, bool) {
 	return nil, false
 }
 
-// String returns the string value from position that you passed by arguments and a bool if found the field.
+// GetString returns the string value from position that you passed by argument
+func (m Map) GetString(position string) string {
+	value, _ := m.String(position)
+	return value
+}
+
+// String returns the string value from position that you passed by argument and a bool if found the field.
 // if it doesn't find the field the returns is "" and false.
 func (m Map) String(position string) (value string, ok bool) {
 	var valueTmp interface{}
@@ -59,7 +71,13 @@ func (m Map) String(position string) (value string, ok bool) {
 	return value, true
 }
 
-// Int returns the int value from position that you passed by arguments and a bool if found the field.
+// GetInt returns the int value from position that you passed by argument
+func (m Map) GetInt(position string) int {
+	value, _ := m.Int(position)
+	return value
+}
+
+// Int returns the int value from position that you passed by argument and a bool if found the field.
 // if it doesn't find the field the returns is 0 and false.
 func (m Map) Int(position string) (value int, ok bool) {
 	var valueTmp interface{}
@@ -72,10 +90,17 @@ func (m Map) Int(position string) (value int, ok bool) {
 	return value, true
 }
 
-// Time returns the time.Time value from position that you passed by arguments and a bool if found the field.
+
+// GetTime returns the time value from position that you passed by argument
+func (m Map) GetTime(position, layout string) time.Time {
+	value, _ := m.Time(position, layout)
+	return value
+}
+
+// Time returns the time.Time value from position that you passed by argument and a bool if found the field.
 // if it doesn't find the field the returns is time.Time default and false.
 // By default the layout is time.RFC3339, you can change the layout using a new one as second parameter
-func (m Map) Time(position string, layout string) (value time.Time, ok bool) {
+func (m Map) Time(position, layout string) (value time.Time, ok bool) {
 	var valueTmp string
 	if valueTmp, ok = m.String(position); !ok {
 		return time.Time{}, false
@@ -98,9 +123,19 @@ func Interface(position string, mapper map[string]interface{}) (interface{}, boo
 	return New(mapper).Interface(position)
 }
 
+// Interface is helper for function Interface from Map.
+func GetInterface(position string, mapper map[string]interface{}) (interface{}) {
+	return New(mapper).GetInterface(position)
+}
+
 // String is helper for function String from Map.
 func String(position string, mapper map[string]interface{}) (value string, ok bool) {
 	return New(mapper).String(position)
+}
+
+// GetString is helper for function String from Map.
+func GetString(position string, mapper map[string]interface{}) (value string) {
+	return New(mapper).GetString(position)
 }
 
 // Int is helper for function Int from Map.
@@ -108,7 +143,17 @@ func Int(position string, mapper map[string]interface{}) (value int, ok bool) {
 	return New(mapper).Int(position)
 }
 
+// GetInt is helper for function Int from Map.
+func GetInt(position string, mapper map[string]interface{}) (value int) {
+	return New(mapper).GetInt(position)
+}
+
 // Time is helper for function Time from Map.
 func Time(position string, mapper map[string]interface{}, layout string) (value time.Time, ok bool) {
 	return New(mapper).Time(position, layout)
+}
+
+// GetTime is helper for function Time from Map.
+func GetTime(position string, mapper map[string]interface{}, layout string) (value time.Time) {
+	return New(mapper).GetTime(position, layout)
 }
