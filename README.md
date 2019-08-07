@@ -3,22 +3,39 @@
 [![license](http://img.shields.io/badge/license-MIT-red.svg?style=flat)](https://raw.githubusercontent.com/rodkranz/nested/master/LICENSE)
 [![Go Report Card](https://goreportcard.com/badge/github.com/rodkranz/nested)](https://goreportcard.com/report/github.com/rodkranz/nested)
  
-# NESTED 
+# NESTED
 
 Simple function to get value from `map[string]interface` without cast every nest field.
 
-## About
+## Source ##
+
+* Nested Source
+* Version: 1.4.0
+* License: MIT-style
+
+## Summary ##
+
+ * [About](#about) 
+ * [how to install](#how-to-install) 
+ * [How to import](#how-to-import) 
+ * [Run Test](#run-test) 
+ * [Run Benchmark](#run-benchmark) 
+ * [Example](#example) 
+ * [Documentation](https://godoc.org/github.com/rodkranz/nested) 
+
+
+## About ##
 
 Something you need to get value from `map` and this value is an `interface` type, you need to cast this value 
 for an type that you know or in nested case you must cast this value and cast for the time that you want.   
 
-## Install
+## How to install ##
 
 ```shell
 go get github.com/rodkranz/nested
 ```
 
-## Import
+## How to import ##
 
 ```go
 import (
@@ -26,14 +43,14 @@ import (
 )
 ```
 
-## Test 
+## Run test ##
 To run the project test
 
 ```shell
 go test -v --cover
 ```
 
-## Benchmark
+## Run benchmark ##
 To run the benchmark 
 
 ```shell
@@ -47,7 +64,7 @@ pprof -http=:8080 cpu.prof
 
 To check this result in browser you must have [pprof](https://github.com/google/pprof)
 
-## Example: 
+## Example ## 
 
 Example os input data 
 ```go
