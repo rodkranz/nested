@@ -10,7 +10,7 @@ Simple function to get value from `map[string]interface` without cast every nest
 ## Source ##
 
 * Nested Source
-* Version: 1.4.0
+* Version: 1.1.0
 * License: MIT-style
 
 ## Summary ##
