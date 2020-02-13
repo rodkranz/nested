@@ -2,9 +2,13 @@ package nested
 
 import (
 	"encoding/json"
+	"errors"
 	"strings"
 	"time"
 )
+
+// ErrInvalidInputType when input is invalid or cannot be casted.
+var ErrInvalidInputType = errors.New("this is not a valid input")
 
 // Map type with functions bind
 type Map map[string]interface{}
@@ -16,6 +20,15 @@ func New(in map[string]interface{}) Map {
 	}
 
 	return Map(in)
+}
+
+// NewFromInterface return new map instance if can cast input to map[string]interface{}.
+func NewFromInterface(in interface{}) (Map, error) {
+	if m, ok := in.(map[string]interface{}); ok {
+		return New(m), nil
+	}
+
+	return nil, ErrInvalidInputType
 }
 
 // GetInterface returns the interface value from position that you passed by argument
@@ -185,6 +198,6 @@ func SubFromString(position string, mapper map[string]interface{}) (Map, bool) {
 }
 
 // GetSubFromString is helper for function GetSubFromString from Map.
-func GetSubFromString(position string, mapper map[string]interface{}) (Map) {
+func GetSubFromString(position string, mapper map[string]interface{}) Map {
 	return New(mapper).GetSubFromString(position)
 }

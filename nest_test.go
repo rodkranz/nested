@@ -29,22 +29,54 @@ var data = map[string]interface{}{
 			"date_time": "1987-01-29T19:00:00Z",
 			"birth":     "29/01/1987",
 		},
-		"extras": "{\"lorem_ipsum\":{\"url\":\"www.lorem-ipsum.com\",\"id\":12},\"lorem_bacon\":{\"url\":\"www.lorem_bacon.com\",\"id\":\"da9883jw32dl12j120un9sa87ds5asn\"}}",
+		"extras":       "{\"lorem_ipsum\":{\"url\":\"www.lorem-ipsum.com\",\"id\":12},\"lorem_bacon\":{\"url\":\"www.lorem_bacon.com\",\"id\":\"da9883jw32dl12j120un9sa87ds5asn\"}}",
 		"extras_error": "{\"lorem_ipsu:\"www.lorem_bacon.com\",\"id\":\"da9883jw32dl12j120un9sa87ds5asn\"}}",
 	},
 }
 
 func TestNew(t *testing.T) {
-	out := New(nil)
-	if reflect.ValueOf(out).Type() != reflect.ValueOf(Map{}).Type() {
-		t.Errorf("Expected an %T, but got %v", Map{}, out)
-	}
+	t.Run("TestNewWithoutData", func(t *testing.T) {
+		out := New(nil)
+		if reflect.ValueOf(out).Type() != reflect.ValueOf(Map{}).Type() {
+			t.Errorf("Expected a type %T, but got %v", Map{}, out)
+		}
+	})
 
-	out = New(map[string]interface{}{"name": "Rodrigo Lopes"})
-	if reflect.ValueOf(out).Type() != reflect.ValueOf(Map{}).Type() {
-		t.Errorf("Expected an %T, but got %v", Map{}, out)
-	}
+	t.Run("TestNewWithData", func(t *testing.T) {
+		out := New(map[string]interface{}{"name": "Rodrigo Lopes"})
+		if reflect.ValueOf(out).Type() != reflect.ValueOf(Map{}).Type() {
+			t.Errorf("Expected a type %T, but got %v", Map{}, out)
+		}
+	})
+}
+func TestNewFromInterface(t *testing.T) {
+	t.Run("TestNewFromInterfaceWithData", func(t *testing.T) {
+		var in interface{} = map[string]interface{}{
+			"first_name": "Rodrigo",
+			"last_name":  "Lopes",
+		}
 
+		out, err := NewFromInterface(in)
+		if err != nil {
+			t.Errorf("Expected error nil, but got %s", err)
+		}
+		if reflect.ValueOf(out).Type() != reflect.ValueOf(Map{}).Type() {
+			t.Errorf("Expected a type %T, but got %v", Map{}, out)
+		}
+	})
+
+	t.Run("TestNewFromInterfaceWithError", func(t *testing.T) {
+		var in interface{} = `{"first_name": "Rodrigo", "last_name":  "Lopes"}`
+
+		out, err := NewFromInterface(in)
+		if err == nil {
+			t.Errorf("Expected error error, but got nil")
+		}
+
+		if len(out) > 0  {
+			t.Errorf("Expected return nil, but got a type %T", out)
+		}
+	})
 }
 
 func TestInterface(t *testing.T) {
@@ -110,10 +142,10 @@ func TestInterface(t *testing.T) {
 			if !reflect.DeepEqual(test.ExpectedFirst, actual) || result != test.ExpectedSecond {
 				t.Errorf("[%d] expected param1: %T(%v) and param2: %T(%v), but got param1: %T(%v) and param2: %T(%v)",
 					key,
-					test.ExpectedFirst, test.ExpectedFirst,   // param1
+					test.ExpectedFirst, test.ExpectedFirst, // param1
 					test.ExpectedSecond, test.ExpectedSecond, // param2
-					actual, actual,                           // actual
-					result, result,                           // result
+					actual, actual, // actual
+					result, result, // result
 				)
 			}
 		})
@@ -222,7 +254,7 @@ func TestGetInterface(t *testing.T) {
 				t.Errorf("[%d] expected param1: %T(%v), but got param1: %T(%v)",
 					key,
 					test.ExpectedFirst, test.ExpectedFirst, // param1
-					actual, actual,                         // actual
+					actual, actual, // actual
 				)
 			}
 		})
@@ -315,10 +347,10 @@ func TestInt(t *testing.T) {
 			if actual != test.ExpectedFirst || result != test.ExpectedSecond {
 				t.Errorf("[%d] expected param1: %T(%v) and param2: %T(%v), but got param1: %T(%v) and param2: %T(%v)",
 					key,
-					test.ExpectedFirst, test.ExpectedFirst,   // param1
+					test.ExpectedFirst, test.ExpectedFirst, // param1
 					test.ExpectedSecond, test.ExpectedSecond, // param2
-					actual, actual,                           // actual
-					result, result,                           // result
+					actual, actual, // actual
+					result, result, // result
 				)
 			}
 		})
@@ -400,7 +432,7 @@ func TestGetInt(t *testing.T) {
 				t.Errorf("[%d] expected param1: %T(%v), but got param1: %T(%v)",
 					key,
 					test.ExpectedFirst, test.ExpectedFirst, // param1
-					actual, actual,                         // actual
+					actual, actual, // actual
 				)
 			}
 		})
@@ -481,10 +513,10 @@ func TestString(t *testing.T) {
 			if actual != test.ExpectedFirst || result != test.ExpectedSecond {
 				t.Errorf("[%s] expected param1: %T(%v) and param2: %T(%v), but got param1: %T(%v) and param2: %T(%v)",
 					test.Parameter,
-					test.ExpectedFirst, test.ExpectedFirst,   // param1
+					test.ExpectedFirst, test.ExpectedFirst, // param1
 					test.ExpectedSecond, test.ExpectedSecond, // param2
-					actual, actual,                           // actual
-					result, result,                           // result
+					actual, actual, // actual
+					result, result, // result
 				)
 			}
 		})
@@ -560,7 +592,7 @@ func TestGetString(t *testing.T) {
 				t.Errorf("[%s] expected param1: %T(%v), but got param1: %T(%v)",
 					test.Parameter,
 					test.ExpectedFirst, test.ExpectedFirst, // param1
-					actual, actual,                         // actual
+					actual, actual, // actual
 				)
 			}
 		})
@@ -661,10 +693,10 @@ func TestTime(t *testing.T) {
 			if actual.UnixNano() != test.ExpectedFirst || result != test.ExpectedSecond {
 				t.Errorf("[%s] expected param1: %T(%v) and param2: %T(%v), but got param1: %T(%v) and param2: %T(%v)",
 					test.Parameter,
-					test.ExpectedFirst, test.ExpectedFirst,   // param1
+					test.ExpectedFirst, test.ExpectedFirst, // param1
 					test.ExpectedSecond, test.ExpectedSecond, // param2
-					actual, actual.UnixNano(),                // actual
-					result, result,                           // result
+					actual, actual.UnixNano(), // actual
+					result, result, // result
 				)
 			}
 		})
@@ -759,7 +791,7 @@ func TestGetTime(t *testing.T) {
 				t.Errorf("[%s] expected param1: %T(%v), but got param1: %T(%v)",
 					test.Parameter,
 					test.ExpectedFirst, test.ExpectedFirst, // param1
-					actual, actual.UnixNano(),              // actual
+					actual, actual.UnixNano(), // actual
 				)
 			}
 		})
@@ -844,10 +876,10 @@ func TestSubFromString(t *testing.T) {
 			if getType(actual) != getType(test.ExpectedFirst) || result != test.ExpectedSecond {
 				t.Errorf("[%s] expected param1: %T(%v) and param2: %T(%v), but got param1: %T(%v) and param2: %T(%v)",
 					test.ParameterFirst,
-					test.ExpectedFirst, test.ExpectedFirst,   // param1
+					test.ExpectedFirst, test.ExpectedFirst, // param1
 					test.ExpectedSecond, test.ExpectedSecond, // param2
-					actual, getType(actual),                  // actual
-					result, result,                           // result
+					actual, getType(actual), // actual
+					result, result, // result
 				)
 			}
 		})
@@ -921,11 +953,11 @@ func TestGetSubFromString(t *testing.T) {
 	for key, test := range tests {
 		t.Run(fmt.Sprintf("Test #%d", key), func(t *testing.T) {
 			actual := GetSubFromString(test.ParameterFirst, test.Data)
-			if getType(actual) != getType(test.ExpectedFirst){
+			if getType(actual) != getType(test.ExpectedFirst) {
 				t.Errorf("[%s] expected param1: %T(%v), but got param1: %T(%v)",
 					test.ParameterFirst,
-					test.ExpectedFirst, test.ExpectedFirst,   // param1
-					actual, actual,                           // result
+					test.ExpectedFirst, test.ExpectedFirst, // param1
+					actual, actual, // result
 				)
 			}
 		})
