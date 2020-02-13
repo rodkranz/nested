@@ -1,15 +1,23 @@
 sudo: false
 language: go
+go: [1.12.x, 1.13.x, master]
+os: [linux, osx]
 
-go:
-- "1.x"
-- "1.11.x"
-- "1.12.x"
-- master
+git:
+  depth: 1
+
+env:
+  - GO111MODULE=on
+  - GO111MODULE=off
+
+matrix:
+  exclude:
+    - go: 1.13.x
+      env: GO111MODULE=off ## Modules are the default now.
 
 script:
-- go test ./... -v -cover -race
+  - go test ./... -v -cover -race
 
 notifications:
   email:
-  - dev.rodrigo.lopes@gmail.com
+    - dev.rodrigo.lopes@gmail.com
