@@ -22,6 +22,15 @@ func New(in map[string]interface{}) Map {
 	return Map(in)
 }
 
+// NewFromJSON returns new Map instance when in is a json valid
+func NewFromJSON(in string) (Map, error) {
+	var m Map
+	if err := json.Unmarshal([]byte(in), &m); err != nil {
+		return nil, ErrInvalidInputType
+	}
+	return m, nil
+}
+
 // NewFromInterface return new map instance if can cast input to map[string]interface{}.
 func NewFromInterface(in interface{}) (Map, error) {
 	if m, ok := in.(map[string]interface{}); ok {

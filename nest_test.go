@@ -73,7 +73,29 @@ func TestNewFromInterface(t *testing.T) {
 			t.Errorf("Expected error error, but got nil")
 		}
 
-		if len(out) > 0  {
+		if len(out) > 0 {
+			t.Errorf("Expected return nil, but got a type %T", out)
+		}
+	})
+}
+func TestNewFromJSON(t *testing.T) {
+	t.Run("TestNewFromJSONWithData", func(t *testing.T) {
+		out, err := NewFromJSON(`{"first_name": "Rodrigo", "last_name":  "Lopes"}`)
+		if err != nil {
+			t.Errorf("Expected error nil, but got %s", err)
+		}
+		if reflect.ValueOf(out).Type() != reflect.ValueOf(Map{}).Type() {
+			t.Errorf("Expected a type %T, but got %v", Map{}, out)
+		}
+	})
+
+	t.Run("TestNewFromJSONWithError", func(t *testing.T) {
+		out, err := NewFromJSON(`Lorem Ipsum Dolor Amet`)
+		if err == nil {
+			t.Errorf("Expected error error, but got nil")
+		}
+
+		if len(out) > 0 {
 			t.Errorf("Expected return nil, but got a type %T", out)
 		}
 	})
