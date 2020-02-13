@@ -2,9 +2,13 @@
 
 ## [Unreleased]
 
+## [1.2.0] - 2020-02-13
+### Added 
+ - Added method `NewFromJSON`. Use string in `JSON` format to create a `map`.
+
 ## [1.1.0] - 2020-02-13
 ### Added
- - Added method `NewFromInterface`. try to cast from `interface` to `map[string]interface`
+ - Added method `NewFromInterface`. try to cast from `interface` to `map[string]interface`.
 
 ## [1.0.0]
 ### Added
